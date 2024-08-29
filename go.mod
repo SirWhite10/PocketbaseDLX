@@ -27,6 +27,7 @@ require (
 	github.com/pocketbase/tygoja v0.0.0-20240113091827-17918475d342
 	github.com/spf13/cast v1.7.0
 	github.com/spf13/cobra v1.8.1
+	github.com/tursodatabase/libsql-client-go v0.0.0-20240812094001-348a4e45b535
 	gocloud.dev v0.39.0
 	golang.org/x/crypto v0.26.0
 	golang.org/x/net v0.28.0
@@ -36,6 +37,7 @@ require (
 )
 
 require (
+	github.com/antlr4-go/antlr/v4 v4.13.0 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
 	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.6.4 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.16.12 // indirect
@@ -50,6 +52,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sso v1.22.5 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.26.5 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.30.5 // indirect
+	github.com/coder/websocket v1.8.12 // indirect
 	github.com/dlclark/regexp2 v1.11.4 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/go-sourcemap/sourcemap v2.1.4+incompatible // indirect
@@ -69,6 +72,7 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	go.opencensus.io v0.24.0 // indirect
+	golang.org/x/exp v0.0.0-20240325151524-a685a6edb6d8 // indirect
 	golang.org/x/image v0.19.0 // indirect
 	golang.org/x/mod v0.19.0 // indirect
 	golang.org/x/sys v0.24.0 // indirect

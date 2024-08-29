@@ -10,7 +10,7 @@ var LogsMigrations migrate.MigrationsList
 func init() {
 	LogsMigrations.Register(func(db dbx.Builder) error {
 		_, err := db.NewQuery(`
-			CREATE TABLE {{_requests}} (
+			CREATE TABLE IF NOT EXISTS {{_requests}} (
 				[[id]]        TEXT PRIMARY KEY NOT NULL,
 				[[url]]       TEXT DEFAULT "" NOT NULL,
 				[[method]]    TEXT DEFAULT "get" NOT NULL,

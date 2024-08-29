@@ -2,6 +2,7 @@ package daos
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 
@@ -171,13 +172,20 @@ func (dao *Dao) normalizeSingleVsMultipleFieldChanges(newCollection, oldCollecti
 	return dao.RunInTransaction(func(txDao *Dao) error {
 		// temporary disable the schema error checks to prevent view and trigger errors
 		// when "altering" (aka. deleting and recreating) the non-normalized columns
-		if _, err := txDao.DB().NewQuery("PRAGMA writable_schema = ON").Execute(); err != nil {
-			return err
-		}
-		// executed with defer to make sure that the pragma is always reverted
-		// in case of an error and when nested transactions are used
-		defer txDao.DB().NewQuery("PRAGMA writable_schema = RESET").Execute()
+		//
+		// -_- have to update to not use this sqlite feature when using turso
+		//
+		turso := os.Getenv("TURSO_DATABASE_URL")
+		isTurso := turso != ""
 
+		if !isTurso {
+			if _, err := txDao.DB().NewQuery("PRAGMA writable_schema = ON").Execute(); err != nil {
+				return err
+			}
+			// executed with defer to make sure that the pragma is always reverted
+			// in case of an error and when nested transactions are used
+			defer txDao.DB().NewQuery("PRAGMA writable_schema = RESET").Execute()
+		}
 		for _, newField := range newCollection.Schema.Fields() {
 			// allow to continue even if there is no old field for the cases
 			// when a new field is added and there are already inserted data
@@ -284,9 +292,12 @@ func (dao *Dao) normalizeSingleVsMultipleFieldChanges(newCollection, oldCollecti
 		}
 
 		// revert the pragma and reload the schema
-		_, revertErr := txDao.DB().NewQuery("PRAGMA writable_schema = RESET").Execute()
-
-		return revertErr
+		// -_- prolly not
+		if !isTurso {
+			_, revertErr := txDao.DB().NewQuery("PRAGMA writable_schema = RESET").Execute()
+			return revertErr
+		}
+		return nil
 	})
 }
 

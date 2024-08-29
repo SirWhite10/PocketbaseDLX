@@ -4,9 +4,11 @@ package core
 
 import (
 	"database/sql"
+	"os"
 
 	"github.com/mattn/go-sqlite3"
 	"github.com/pocketbase/dbx"
+	_ "github.com/tursodatabase/libsql-client-go/libsql"
 )
 
 func init() {
@@ -41,10 +43,24 @@ func init() {
 }
 
 func connectDB(dbPath string) (*dbx.DB, error) {
-	db, err := dbx.Open("pb_sqlite3", dbPath)
-	if err != nil {
-		return nil, err
-	}
+	libsqlUrl := os.Getenv("TURSO_DATABASE_URL")
+	if libsqlUrl != "" {
+		token := os.Getenv("TURSO_AUTH_TOKEN")
 
-	return db, nil
+		// log.Println(libsqlUrl + "?authToken=" + token)
+
+		db, err := dbx.Open("libsql", libsqlUrl+"?authToken="+token)
+		if err != nil {
+			return nil, err
+		}
+
+		return db, nil
+	} else {
+		db, err := dbx.Open("pb_sqlite3", dbPath)
+		if err != nil {
+			return nil, err
+		}
+
+		return db, nil
+	}
 }

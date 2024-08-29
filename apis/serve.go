@@ -64,6 +64,7 @@ func Serve(app core.App, config ServeConfig) (*http.Server, error) {
 	}
 
 	// ensure that the latest migrations are applied before starting the server
+
 	if err := runMigrations(app); err != nil {
 		return nil, err
 	}
