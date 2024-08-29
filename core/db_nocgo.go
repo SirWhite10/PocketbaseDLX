@@ -11,7 +11,7 @@ import (
 )
 
 func connectDB(dbPath string) (*dbx.DB, error) {
-	ibsqlUrl := os.Getenv("TURSO_DATABASE_URL")
+	ibsqlUrl := os.Getenv("TURSO_DATABASE_URL") || ""
 	if libsqlUrl != "" {
 		token := os.Getenv("TURSO_AUTH_TOKEN")
 
