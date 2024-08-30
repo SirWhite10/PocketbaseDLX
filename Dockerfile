@@ -1,4 +1,4 @@
-
+# syntax = docker/dockerfile:1-experimental
 # Build stage
 FROM golang:1.23-alpine AS builder
 
@@ -9,16 +9,18 @@ WORKDIR /app
 COPY . .
 
 # Build the Go application
-RUN go build -o pocketbase_max ./app/main.go
+RUN go build -o pocketbase_dlx ./app/main.go
 
 # Final stage
 FROM scratch
-
+#FROM alpine:latest
+#RUN apk update && apk add fish
 # Copy the built binary from the build stage
-COPY --from=builder /app/pocketbase_max /
-
+COPY --from=builder /app/pocketbase_dlx /
+#RUN chmod x+ /app/pocketbase_dlx
 # Expose the default port your app listens on
-EXPOSE 8080
+EXPOSE 8090
 
 # Define the command to run the application
-ENTRYPOINT ["/pocketbase_max serve --http=0.0.0.0:8090"]
+ENTRYPOINT ["/pocketbase_dlx"]
+CMD ["serve", "--http=0.0.0.0:8090"]
