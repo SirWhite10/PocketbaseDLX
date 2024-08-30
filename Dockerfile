@@ -12,8 +12,9 @@ COPY . .
 RUN go build -o pocketbase_dlx ./app/main.go
 
 # Final stage
-FROM scratch
-#FROM alpine:latest
+# FROM scratch
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
 #RUN apk update && apk add fish
 # Copy the built binary from the build stage
 COPY --from=builder /app/pocketbase_dlx /
